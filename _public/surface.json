@@ -1,0 +1,46 @@
+{
+  "version": 1,
+  "pages": [
+    {
+      "slug": "veranstaltung-anmelden",
+      "component": "VeranstaltungAnmelden",
+      "title": "Zur Veranstaltung anmelden",
+      "link_param": {
+        "name": "veranstaltung",
+        "entity": "veranstaltungen",
+        "label_field": "titel"
+      },
+      "endpoints": [
+        {
+          "entity": "veranstaltungen",
+          "op": "list",
+          "fields": [
+            "titel",
+            "beschreibung",
+            "datum",
+            "ort",
+            "max_teilnehmer",
+            "headerbild",
+            "hintergrundbild",
+            "anmeldung_status"
+          ],
+          "max_records": 500
+        },
+        {
+          "entity": "anmeldungen",
+          "op": "create",
+          "fields": [
+            "veranstaltung",
+            "nachname",
+            "vorname",
+            "email",
+            "anmerkung"
+          ],
+          "preset_fields": {
+            "status": "angemeldet"
+          }
+        }
+      ]
+    }
+  ]
+}

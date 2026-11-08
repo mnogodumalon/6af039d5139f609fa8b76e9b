@@ -20,6 +20,7 @@
 import type { ComponentType } from 'react';
 
 // <custom:intent-imports>
+import { IconUserX, IconUserCheck } from '@tabler/icons-react';
 // </custom:intent-imports>
 
 export interface IntentLink {
@@ -42,6 +43,8 @@ export interface IntentLink {
 
 export const INTENTS: IntentLink[] = [
   // <custom:intents>
+  { path: '/intents/anmeldung-absagen', label: { de: 'Anmeldung absagen', en: 'Cancel registration' }, icon: IconUserX, description: 'Der Administrator sagt eine Person einer Veranstaltung ab.' },
+  { path: '/intents/warteliste-aktivieren', label: { de: 'Person von der Warteliste aktivieren', en: 'Promote from waiting list' }, icon: IconUserCheck, description: 'Person von der Warteliste manuell auf angemeldet setzen.' },
   // </custom:intents>
 ];
 
@@ -52,7 +55,7 @@ export const INTENTS: IntentLink[] = [
  * purpose — a scaffold update resets it to false (self-healing if Phase 2
  * never ran).
  */
-export const INTENTS_PENDING = true;
+export const INTENTS_PENDING = false;
 
 /**
  * When the Phase-1 bundle was deployed (ISO, set by the service together with
