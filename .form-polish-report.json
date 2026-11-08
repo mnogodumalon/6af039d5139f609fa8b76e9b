@@ -1,0 +1,19 @@
+{
+  "entities": {
+    "Veranstaltungen": {
+      "placeholders_set": 5,
+      "defaults_keys": [
+        "datum",
+        "anmeldung_status"
+      ],
+      "computed_keys": [],
+      "reason": "Keine Formeln, da es nur ein einzelnes Datum und keine Preis- oder Mengenkette gibt."
+    },
+    "Anmeldungen": {
+      "placeholders_set": 5,
+      "defaults_keys": [],
+      "computed_keys": [],
+      "reason": "Keine Formel, da es kein Datumspaar, keinen Preis und keine Menge gibt und max_teilnehmer nur eine Kapazität ist, daher nur Status-Standard und Feldreihenfolge."
+    }
+  }
+}

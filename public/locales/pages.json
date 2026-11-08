@@ -1,0 +1,33 @@
+{
+  "pages": {
+    "en": {
+      "Aktivieren": "Activate",
+      "Als Nächstes: {0} am {1}.": "Next up: {0} on {1}.",
+      "Anmeldeseite": "Registration page",
+      "Anmeldung offen": "Registration open",
+      "Bearbeiten": "Edit",
+      "Belegte Plätze (anstehend)": "Spots taken (upcoming)",
+      "Erste Veranstaltung anlegen": "Create first event",
+      "Fast ausgebucht": "Almost full",
+      "Keine Veranstaltung kurz vor dem Limit.": "No event close to its limit.",
+      "Keine Veranstaltung passt zum Filter.": "No event matches the filter.",
+      "Lege deine erste kommende Veranstaltung an.": "Create your first upcoming event.",
+      "Link kopieren": "Copy link",
+      "Link kopieren:": "Copy link:",
+      "Link kopiert": "Link copied",
+      "Mit Warteliste": "With waitlist",
+      "Neue Veranstaltung": "New event",
+      "Niemand wartet — alle Anmeldungen haben einen Platz.": "Nobody waiting — all registrations have a spot.",
+      "Noch keine Veranstaltung — lege die erste an und teile den Anmeldelink.": "No events yet — create the first one and share the registration link.",
+      "Plätze belegt": "Spots taken",
+      "Plätze frei": "Spots available",
+      "QR-Code": "QR code",
+      "QR-Code zur Anmeldung": "Registration QR code",
+      "Von Warteliste aktivieren": "Activate from waitlist",
+      "Warteliste": "Waitlist",
+      "auf Warteliste": "on waitlist",
+      "{0} warten auf der Warteliste auf einen Platz.": "{0} waiting on the waitlist for a spot."
+    }
+  },
+  "v": 1
+}

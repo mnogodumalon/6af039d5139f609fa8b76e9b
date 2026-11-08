@@ -1,0 +1,176 @@
+{
+  "version": 1,
+  "language": "de",
+  "understanding": {
+    "summary": "Die Anwendung „LivingLogic Veranstaltungen“ verwaltet Veranstaltungen mit Titel, Beschreibung, Datum, Ort, maximaler Teilnehmerzahl und Anmeldestatus. Für jede Veranstaltung gibt es eine öffentliche Anmeldeseite mit Link und QR-Code, auf der Interessenten ohne Login Nachname, Vorname, E-Mail und optional eine Anmerkung eingeben. Doppelanmeldungen mit derselben E-Mail zur selben Veranstaltung werden verhindert. Ist die Veranstaltung voll, landet die Person auf der Warteliste und sieht das auf der Antwortseite, zusammen mit allen ihren Angaben. Der Administrator legt Veranstaltungen an, sagt Teilnehmende ab und setzt Personen von der Warteliste manuell auf angemeldet.",
+    "outside_users": [
+      {
+        "who": "Interessenten",
+        "does": "öffnen den Link oder scannen den QR-Code, sehen die Veranstaltungsinfos und melden sich an"
+      }
+    ],
+    "roles": [
+      "Administrator",
+      "Interessenten und Teilnehmende"
+    ],
+    "main_tasks": [
+      "Veranstaltung anlegen und Anmeldung öffnen oder schließen",
+      "Link und QR-Code zur Anmeldeseite öffnen oder kopieren",
+      "Anmeldungen einsehen, absagen und von der Warteliste aktivieren"
+    ],
+    "platform_roles": [
+      {
+        "persona": "Administrator",
+        "role": "administrator",
+        "apps": [
+          "veranstaltungen",
+          "anmeldungen"
+        ]
+      }
+    ],
+    "wish_kind": "plain",
+    "wish_signals": []
+  },
+  "flows": [
+    {
+      "slug": "anmeldung-absagen",
+      "label": {
+        "de": "Anmeldung absagen",
+        "en": "Cancel registration"
+      },
+      "description": "Der Administrator sagt eine Person einer Veranstaltung ab. Der Platz wird frei und kann danach von der Warteliste vergeben werden.",
+      "priority": "must",
+      "writes": [
+        {
+          "entity": "anmeldungen",
+          "op": "update",
+          "when": "always",
+          "fields": {
+            "status": "fixed:abgesagt"
+          },
+          "multiple": false,
+          "needs": {},
+          "defaults": []
+        }
+      ],
+      "required": [],
+      "brief": "# Flow `anmeldung-absagen` — Anmeldung absagen\nDer Administrator sagt eine Person einer Veranstaltung ab. Der Platz wird frei und kann danach von der Warteliste vergeben werden.\n\n## Your hook — import it, never rebuild what it owns\n`import { useAnmeldungAbsagenFlow } from '@/lib/journey/flows/AnmeldungAbsagen';` — generated from the Schreibliste below. It OWNS the form(s), one record search per picked field (columns and filter from the plan) and the submit plan with every fixed and derived value. You compose: `flow.forms.<entity>` for <Bound>/<Field>, `{...flow.picks.<field>.select} {...flow.pick('<field>')}` (or `flow.pickMany` for a multi pick) for <EntitySelectStep>, `flow.validateStep(n)` in StepNav.onNext, `flow.submit` + `flow.formList` for SummaryStep/SuccessStep, `flow.reset()`; what the hook does not own reads through its door `flow.port` — availability `useOccupancy(flow.port, '<entity>', { resource })`, a count `useRecordCount(flow.port, …)` — never import servicePort next to the hook. Options: `steps` (field → step), `items` (how a hit reads, per pick), `initial`, `messages`. The hook's docblock in .lane-context.md shows the exact call. This flow CHANGES a record of `anmeldungen`: `{...flow.picks.anmeldungen.select} {...flow.pick('anmeldungen')}` picks it, the hook prefills the form with its current values and updates THAT record — never a create step, never a list from useDashboardData. Never import servicePort, useStepForm, useJourneySubmit, useRecordSearch or useDashboardData in this page — check-intents refuses a page that uses the hook and any of them.\n\n## Steps (in this order)\n1. Veranstaltung wählen\n2. Angemeldete Person der Veranstaltung wählen\n3. Absage bestätigen\n\n## Schreibliste — the ONLY writes this flow makes (the gate compares your plan steps with this list)\n- updates `anmeldungen`:\n    - `status`: fixed value `abgesagt` — set it in the plan step's values, never ask\n\n## Reads\n- `veranstaltungen` columns titel, datum, ort\n- `anmeldungen` columns nachname, vorname, email, status\n\n## Success page\n- the success page offers the way back — `undo={flow.undo}` on <SuccessStep>: „Absage zurücknehmen“ sets status=angemeldet\n- shows: `anmeldungen.nachname`, `anmeldungen.vorname`, `anmeldungen.status`\n- next flows to offer: `warteliste-aktivieren`\n\n## Never write these — another flow or a tool owns them\n"
+    },
+    {
+      "slug": "warteliste-aktivieren",
+      "label": {
+        "de": "Person von der Warteliste aktivieren",
+        "en": "Promote from waiting list"
+      },
+      "description": "Der Administrator setzt eine Person von der Warteliste einer Veranstaltung manuell auf angemeldet, sobald ein Platz frei ist.",
+      "priority": "must",
+      "writes": [
+        {
+          "entity": "anmeldungen",
+          "op": "update",
+          "when": "always",
+          "fields": {
+            "status": "fixed:angemeldet"
+          },
+          "multiple": false,
+          "needs": {},
+          "defaults": []
+        }
+      ],
+      "required": [],
+      "brief": "# Flow `warteliste-aktivieren` — Person von der Warteliste aktivieren\nDer Administrator setzt eine Person von der Warteliste einer Veranstaltung manuell auf angemeldet, sobald ein Platz frei ist.\n\n## Your hook — import it, never rebuild what it owns\n`import { useWartelisteAktivierenFlow } from '@/lib/journey/flows/WartelisteAktivieren';` — generated from the Schreibliste below. It OWNS the form(s), one record search per picked field (columns and filter from the plan) and the submit plan with every fixed and derived value. You compose: `flow.forms.<entity>` for <Bound>/<Field>, `{...flow.picks.<field>.select} {...flow.pick('<field>')}` (or `flow.pickMany` for a multi pick) for <EntitySelectStep>, `flow.validateStep(n)` in StepNav.onNext, `flow.submit` + `flow.formList` for SummaryStep/SuccessStep, `flow.reset()`; what the hook does not own reads through its door `flow.port` — availability `useOccupancy(flow.port, '<entity>', { resource })`, a count `useRecordCount(flow.port, …)` — never import servicePort next to the hook. Options: `steps` (field → step), `items` (how a hit reads, per pick), `initial`, `messages`. The hook's docblock in .lane-context.md shows the exact call. This flow CHANGES a record of `anmeldungen`: `{...flow.picks.anmeldungen.select} {...flow.pick('anmeldungen')}` picks it, the hook prefills the form with its current values and updates THAT record — never a create step, never a list from useDashboardData. Never import servicePort, useStepForm, useJourneySubmit, useRecordSearch or useDashboardData in this page — check-intents refuses a page that uses the hook and any of them.\n\n## Steps (in this order)\n1. Veranstaltung wählen\n2. Person auf der Warteliste wählen\n3. Auf angemeldet setzen\n\n## Schreibliste — the ONLY writes this flow makes (the gate compares your plan steps with this list)\n- updates `anmeldungen`:\n    - `status`: fixed value `angemeldet` — set it in the plan step's values, never ask\n\n## Reads\n- `veranstaltungen` columns titel, datum, max_teilnehmer\n- `anmeldungen` columns nachname, vorname, email, status\n\n## Success page\n- the success page offers the way back — `undo={flow.undo}` on <SuccessStep>: „Zurück auf die Warteliste“ sets status=warteliste\n- shows: `anmeldungen.nachname`, `anmeldungen.vorname`, `anmeldungen.status`\n\n## Never write these — another flow or a tool owns them\n"
+    }
+  ],
+  "public_pages": [
+    {
+      "slug": "veranstaltung-anmelden",
+      "purpose": "Interessenten öffnen den Link oder scannen den QR-Code ihrer Veranstaltung, sehen Titel, Beschreibung, Datum, Ort, Headerbild und Hintergrundbild und melden sich mit Nachname, Vorname, E-Mail und optionaler Anmerkung an. Der Footer mit Links zu Impressum und Datenschutz ist optisch abgetrennt. Die Antwortseite zeigt alle Angaben der Person nochmals, weist bei voller Veranstaltung auf die Warteliste hin und meldet eine Doppelanmeldung mit derselben E-Mail.",
+      "publish": true,
+      "lists": [
+        {
+          "entity": "veranstaltungen",
+          "columns": [
+            "titel",
+            "beschreibung",
+            "datum",
+            "ort",
+            "max_teilnehmer",
+            "headerbild",
+            "hintergrundbild",
+            "anmeldung_status"
+          ],
+          "filter": null,
+          "max_records": null
+        }
+      ],
+      "creates": [
+        {
+          "entity": "anmeldungen",
+          "fields": {
+            "veranstaltung": "picked",
+            "nachname": "user",
+            "vorname": "user",
+            "email": "user",
+            "anmerkung": "user"
+          },
+          "fixed": {
+            "status": "angemeldet"
+          }
+        }
+      ],
+      "visitor_fields": [],
+      "page_sets": [
+        "veranstaltungen.anmeldung_status"
+      ],
+      "brief": "# Public page `veranstaltung-anmelden`\nInteressenten öffnen den Link oder scannen den QR-Code ihrer Veranstaltung, sehen Titel, Beschreibung, Datum, Ort, Headerbild und Hintergrundbild und melden sich mit Nachname, Vorname, E-Mail und optionaler Anmerkung an. Der Footer mit Links zu Impressum und Datenschutz ist optisch abgetrennt. Die Antwortseite zeigt alle Angaben der Person nochmals, weist bei voller Veranstaltung auf die Warteliste hin und meldet eine Doppelanmeldung mit derselben E-Mail.\n\n## Lists (declare exactly these in the surface)\n- `veranstaltungen`: columns `titel`, `beschreibung`, `datum`, `ort`, `max_teilnehmer`, `headerbild`, `hintergrundbild`, `anmeldung_status`\n\n## Creates (declare exactly these in the surface)\n- `anmeldungen`: visitor fields `veranstaltung`, `nachname`, `vorname`, `email`, `anmerkung`; preset_fields {\"status\": \"angemeldet\"}\n\n## Read the pointer fresh when sending\n- `veranstaltungen.anmeldung_status` must be what `offen.` points at WHEN the visitor sends. The page keeps SHOWING the live pointer — `useLiveList(port, 'offen', { intervalMs: 20000 })` stays (never faster: each public read costs a challenge, a room of phones behind one network draws 429), poll only `offen` and read the pointed-at record when the pointer changes; the shown question follows within one poll; never freeze the value loaded first (EF-16: an open form stayed on round 1 for 40 s). The send checks ADDITIONALLY, inside the submit so offline and resend work (EF-22): `useJourneySubmit(port, plan, { draftKey, check: async () => (await freshRef(port, 'offen', <the offen id>, '')) === <the id on screen> ? null : 'Inzwischen ist eine andere Frage dran.' })` — never call freshRef before `run()` in the page.\n\n## Link parameter (declare exactly this in the surface)\n- `link_param: { name: 'veranstaltung', entity: 'veranstaltungen', label_field: 'titel' }` — the page opens as `#/public/veranstaltung-anmelden?veranstaltung=<id>` and reads THAT `veranstaltungen` record from its list endpoint; without the parameter it shows a short notice (never a list to pick from — the owner hands out one link per record).\n\n## Availability — mechanical, write nothing for it\nA picker (`useRecordSearch`) never offers a record another record already takes (a booked slot) — the layer leaves it out. To SHOW booked periods, call `useOccupancy(port, '<entity>')` and hand `blocked` to AvailabilityRangePicker; the integration gives the page exactly that read (dates or the reference, never who booked). Never declare a list of bookings with names or contacts to work availability out yourself.\n\nPublish: never from here — every page starts as a draft; the owner publishes it under Verwaltung → Öffentliche Seiten after the build (the plan wishes it published)\n"
+    }
+  ],
+  "tools": [
+    {
+      "id": "warteliste-zuweisen",
+      "purpose": "Läuft nach dem Anlegen einer Anmeldung. Zählt die Anmeldungen derselben Veranstaltung mit Status angemeldet, ohne die neue. Ist die maximale Teilnehmerzahl erreicht, setzt das Werkzeug die neue Anmeldung auf Warteliste."
+    },
+    {
+      "id": "anmeldungen-doppelt-verhindern",
+      "purpose": "Führt in anmeldungen einen später angelegten Datensatz mit derselben „E-Mail-Adresse“ in den früheren zusammen (fehlende Werte übernehmen) und löscht dann den späteren — der frühere gilt"
+    }
+  ],
+  "covered_by_platform": [
+    {
+      "wish": "Veranstaltungen und Anmeldungen als Administrator anlegen und bearbeiten",
+      "feature": "record_form"
+    },
+    {
+      "wish": "Absagen und Aktivieren von Wartelisten-Personen manuell vornehmen",
+      "feature": "bulk_edit"
+    },
+    {
+      "wish": "Zugriff nur für Administrator",
+      "feature": "user_roles"
+    },
+    {
+      "wish": "Anmeldungen je Veranstaltung auswerten",
+      "feature": "distribution_view"
+    }
+  ],
+  "ownership": {
+    "anmeldungen": {
+      "status": "tool:warteliste-zuweisen"
+    }
+  },
+  "dashboard": {
+    "focus": [
+      "Veranstaltungen mit Datum, Ort und Anmeldestatus",
+      "Belegte Plätze gegenüber maximaler Teilnehmerzahl",
+      "Anmeldungen auf der Warteliste"
+    ],
+    "hints": [
+      "Bei jeder Veranstaltung drei Buttons: Anmeldeseite in neuem Tab öffnen, QR-Code in neuem Tab öffnen, Link kopieren",
+      "Der Link enthält die jeweilige Veranstaltung als Parameter der öffentlichen Anmeldeseite",
+      "Zähle nur Anmeldungen mit Status angemeldet als belegte Plätze"
+    ],
+    "views": [],
+    "writes": [],
+    "wishes": []
+  }
+}

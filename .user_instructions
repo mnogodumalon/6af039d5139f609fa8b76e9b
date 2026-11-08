@@ -1,0 +1,25 @@
+Wir führen immer wieder Veranstaltungen durch zu denen sich die Interessenten online anmelden müssen.
+
+Für jede Veranstaltung benötigen wir einen Link zum jeweiligen Anmelde-Formular und einen QR-Code dafür.
+
+Auf der Übersicht (Dashboard) sollen bei der Anzeige jeder Veranstaltung drei Buttons eingefügt sein. Der erste Klick öffnet die jeweilige Anmeldeseite in einem neuen Tab und der zweite Button öffnet den QR-Code zum Anmeldeformular auf einem neuen Tab. Der dritte Button kopiert den Link.
+
+Teilnehmende scannen den QR-Code oder öffnen den Link auf das jeweilige Anmeldeformular und sehen ohne Anmeldung nur ein ganz einfaches Anmeldeformular mit Informationen zur Veranstaltung (mindestens Titel, Beschreibung, Datum,  Ort). Der Interessent gibt auf dem Anmeldeformular zwingend Name, Vorname und E-Mail-Adresse sowie optional eine Anmerkung ein.
+
+Zur optischen Verschönerung des Anmeldeformulars kann durch den Administrator ein Hintergrundbild und ein Headerbild hochgeladen werden. Das Headerbild soll dann oberhalb des Formulars eingefügt werden. Das Hintergrundbild soll hinter das Formular mit den Eingabefeldern gelegt werden. Dabei dürfen links und rechts keine Abstände bleiben, das Hintergrundbild muss über die gesamte Breite gesteckt sein.
+
+Im Footer müssen Links zu Impressum- (https://www.living-apps.de/impressum.htm? und zur Datenschutz-Seite (https://www.living-apps.de/datenschutz.htm) von LivingApps eingefügt werden. Der Footer soll optisch abgetrennt sein.
+
+Auf der Antwortseite sollen alle Angaben der Person nochmals angezeigt werden.
+
+Es muss eine maximale Teilnehmerzahl und eine Warteliste geben.
+
+Wenn die maximale Teilnehmerzahl überschritten wird, dann muss die anmeldende Person auf der Antwortseite des Anmeldeformulars darauf aufmerksam gemacht, dass sie auf der Warteliste steht.
+
+Vor dem Eintragen der Anmeldung muss geprüft werden, ob bereits früher eine Anmeldung mit eine E-Mailadresse erfolgt ist. Doppelanmeldungen müssen strikt vermieden werden.
+
+Gegebenenfalls wird nach dem Absende-Versuch auf der Antwortseite angezeigt, dass die Anmeldung nicht vorgenommen werden konnte, da bereits eine Anmeldung mit dieser E-Mail-Adresse zu dieser Veranstaltung vorliegt.
+
+Veranstaltungen lege ich als Administrator selbst an. Die Deaktivierung von Teilnehmenden (wegen Absage) und die Aktivierung einer Person auf der Warteliste nehme ich manuell vor.
+
+Erstelle eine Anwendung, die alle diese Anforderungen erfüllt. Nenne die Anwendung „LivingLogic Veranstaltungen“.
